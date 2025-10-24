@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Ontology Finder • OLS4 (Single + Batch)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Ontology Finder (OLS4)</h1>
+
+    <!-- Ontology selection (shared) -->
+    <section class="card">
+      <h2>Ontologies</h2>
+      <div class="row">
+        <label>Built-ins</label>
+        <div class="pill-grid">
+          <label class="pill"><input type="checkbox" class="onto" value="cl" checked> CL (Cell Ontology)</label>
+          <label class="pill"><input type="checkbox" class="onto" value="go" checked> GO (Gene Ontology)</label>
+          <label class="pill"><input type="checkbox" class="onto" value="ncit" checked> NCIT (NCI Thesaurus)</label>
+        </div>
+      </div>
+      <div class="row">
+        <label for="customOntos">Add more prefixes</label>
+        <input id="customOntos" placeholder="uberon, chebi, pr"/>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <div class="tabs card">
+      <button class="tab-btn active" data-tab="single">Single Search</button>
+      <button class="tab-btn" data-tab="batch">Batch Lookup</button>
+    </div>
+
+    <!-- SINGLE SEARCH -->
+    <section id="tab-single" class="card tab active">
+      <h2>Single Search</h2>
+
+      <form id="search-form">
+        <div class="row">
+          <label for="lookupBy">Lookup by</label>
+          <select id="lookupBy" name="lookupBy">
+            <option value="label" selected>label (e.g., T cell)</option>
+            <option value="short_form">short_form (e.g., CL_0000084)</option>
+            <option value="obo_id">obo_id (e.g., CL:0000084)</option>
+            <option value="iri">iri (full IRI)</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="queryValue">Value</label>
+          <input id="queryValue" name="queryValue" placeholder="T cell" required />
+        </div>
+        <div class="row">
+          <label for="lang">Language</label>
+          <input id="lang" name="lang" value="en" />
+        </div>
+        <div class="row">
+          <label for="size">Page size / candidates</label>
+          <input id="size" name="size" type="number" min="1" step="1" value="25" />
+        </div>
+        <div class="row">
+          <label for="page">Page (for /individuals)</label>
+          <input id="page" name="page" type="number" min="0" step="1" placeholder="0" />
+        </div>
+        <div class="row">
+          <label for="onlyCL">Only Cell Ontology (single label search)</label>
+          <input id="onlyCL" type="checkbox" />
+        </div>
+        <div class="row">
+          <label for="dedupe">Deduplicate results</label>
+          <input id="dedupe" type="checkbox" checked />
+        </div>
+        <div class="row">
+          <label></label>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+
+      <div id="status" class="status"></div>
+      <section id="summary" class="card subtle"></section>
+
+      <section class="card">
+        <h3>Results</h3>
+        <table id="results">
+          <thead>
+            <tr>
+              <th>Label</th>
+              <th>Ontology</th>
+              <th>Ontology ID</th>
+              <th>IRI</th>
+              <th>Synonyms</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="row space-between">
+          <h3>Raw JSON</h3>
+          <button id="copyJsonBtn" type="button">Copy JSON</button>
+        </div>
+        <pre id="raw-json"></pre>
+      </section>
+    </section>
+
+    <!-- BATCH LOOKUP -->
+    <section id="tab-batch" class="card tab">
+      <h2>Batch Lookup</h2>
+
+      <div class="row">
+        <label for="termsText">Terms (one per line)</label>
+        <textarea id="termsText" rows="10" placeholder="T cell&#10;Apoptosis&#10;Cytokine&#10;..."></textarea>
+      </div>
+      <div class="row">
+        <label for="termsFile">Or load .txt file</label>
+        <input id="termsFile" type="file" accept=".txt" />
+      </div>
+      <div class="row">
+        <label for="batchSize">Candidates per ontology</label>
+        <input id="batchSize" type="number" min="1" step="1" value="25"/>
+      </div>
+      <div class="row">
+        <label for="sleep">Delay (ms) between calls</label>
+        <input id="sleep" type="number" min="0" step="5" value="50"/>
+      </div>
+      <div class="row">
+        <label></label>
+        <button id="runBatch">Run Batch</button>
+      </div>
+
+      <div id="progressWrap" class="progress-wrap" hidden>
+        <div id="progressText" class="progress-text">Starting…</div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="status" id="batchStatus"></div>
+
+      <section class="card subtle">
+        <div class="row space-between">
+          <h3>Batch Results</h3>
+          <button id="downloadCsv">Download CSV</button>
+        </div>
+        <table id="batchTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Input term</th>
+              <th>Ontology</th>
+              <th>Ontology ID</th>
+              <th>Label</th>
+              <th>Definition</th>
+              <th>IRI</th>
+            </tr>
+          </thead>
+          <tbody id="batchBody"></tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="row space-between">
+          <h3>Debug JSON (last term)</h3>
+          <button id="copyBatchJsonBtn" type="button">Copy JSON</button>
+        </div>
+        <pre id="batch-raw-json"></pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="./config.js"></script>
+  <script src="./apiClient.js"></script>
+  <script src="./index.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+body { margin: 0; background: #0b0d12; color: #e8eaed; }
+.container { max-width: 1100px; margin: 32px auto; padding: 0 16px; }
+h1 { margin-bottom: 12px; }
+.card { background: #151922; padding: 16px; border-radius: 14px; margin: 16px 0; box-shadow: 0 2px 14px rgba(0,0,0,0.2); }
+.card.subtle { background: #121622; }
+.row { display: grid; grid-template-columns: 220px 1fr; gap: 12px; align-items: center; margin: 10px 0; }
+label { color: #b7c0cc; }
+input, select, button, textarea { font-size: 14px; padding: 10px; border-radius: 10px; border: 1px solid #2a3242; background: #0f1320; color: #e8eaed; }
+textarea { min-height: 160px; }
+button { cursor: pointer; border: 1px solid #3c4a64; }
+button:hover { background: #12172a; }
+.status { margin: 8px 0; min-height: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #2a3242; padding: 8px; vertical-align: top; }
+th { text-align: left; color: #b7c0cc; }
+pre { white-space: pre-wrap; word-break: break-word; }
+.row.space-between { grid-template-columns: 1fr auto; }
+.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { background: #0f1320; border: 1px solid #2a3242; border-radius: 999px; padding: 6px 10px; }
+
+.tabs { display: flex; gap: 8px; }
+.tab-btn { background: #0f1320; border-radius: 10px; padding: 10px 12px; border: 1px solid #2a3242; cursor: pointer; }
+.tab-btn.active { background: #1c2130; border-color: #3c4a64; }
+.tab { display: none; }
+.tab.active { display: block; }
+
+.progress-wrap { margin-top: 10px; }
+.progress-text { font-size: 12px; color: #b7c0cc; margin-bottom: 6px; }
+.progress-bar { width: 100%; height: 8px; background: #0f1320; border: 1px solid #2a3242; border-radius: 8px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #4e8df5, #9b77ff); width: 0%; }
+
+/* Ontology badges */
+.badge { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.badge.CL   { background: #14351c; color: #71e089; border: 1px solid #1f5f2e; }
+.badge.GO   { background: #0d2245; color: #68a9ff; border: 1px solid #1a3f7f; }
+.badge.NCIT { background: #2a0f3b; color: #c892ff; border: 1px solid #4f1a7f; }
+.badge.OTHER{ background: #3a3a3a; color: #fff; border: 1px solid #5a5a5a; }
+
+a.idlink { color: #9bb7ff; text-decoration: none; }
+a.idlink:hover { text-decoration: underline; }
