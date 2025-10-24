@@ -32,9 +32,13 @@ This project is particularly suitable for researchers working in bioinformatics,
 
 ontology-finder-ui/
 ├── index.html       # Main user interface (single & batch search)
+
 ├── style.css        # Styling and color themes
+
 ├── config.js        # Base API configuration (OLS4 endpoint)
+
 ├── apiClient.js     # Handles all API requests to OLS4
+
 └── index.js         # UI logic, search flow, CSV export, progress handling
 
 ---
